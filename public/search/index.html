@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="dark">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Search | NovaEdge - 技术与思考的边界</title>
+<meta name="keywords" content="">
+<meta name="description" content="Search - NovaEdge - 技术与思考的边界">
+<meta name="author" content="闫涛">
+<link rel="canonical" href="http://localhost:1313/search/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fd5566c526ae48aadabd950798a2dc3568536401560eae5caac3765a42a9e7b5.css" integrity="sha256-/VVmxSauSKravZUHmKLcNWhTZAFWDq5cqsN2WkKp57U=" rel="preload stylesheet" as="style"><link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
+<script defer crossorigin="anonymous" src="/assets/js/search.0cb52d6b1628dc11278c9d7d1418939954e1ba118f5e2c29f43a3c0b14d5a8e4.js" integrity="sha256-DLUtaxYo3BEnjJ19FBiTmVThuhGPXiwp9Do8CxTVqOQ="></script>
+<link rel="icon" href="http://localhost:1313/images/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/images/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/images/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/images/favicon.png">
+<link rel="mask-icon" href="http://localhost:1313/images/favicon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/search/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/search/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="custom-header"
+        style="position:sticky;top:0;z-index:100;
+               background:rgba(15,15,15,0.85);
+               backdrop-filter:blur(12px);
+               border-bottom:1px solid rgba(255,255,255,0.07);
+               padding:0.6rem 1.5rem;
+               display:flex;align-items:center;justify-content:space-between;">
+
+  
+  <a href="/" class="logo-link" style="display:flex;align-items:center;text-decoration:none;">
+    <img src="/images/logo.png"
+         alt="NovaEdge Logo"
+         style="height:38px;width:38px;object-fit:cover;border-radius:8px;
+                box-shadow:0 0 8px rgba(125,207,255,0.5);margin-right:10px;">
+    <span style="font-size:1.1rem;font-weight:600;color:#f0f0f0;letter-spacing:.03em;">
+      NovaEdge
+    </span>
+  </a>
+
+  
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <a href="/posts" style="color:#ccc;text-decoration:none;font-weight:500;">文章</a>
+    <a href="/about" style="color:#ccc;text-decoration:none;font-weight:500;">关于</a>
+
+    
+    <button id="search-btn"
+            style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+           style="fill:#ccc;transition:fill .3s ease;">
+        <path d="M19.53 18.47l-5.37-5.37A7.94 7.94 0 0016 8a8 8 0 10-8 8 7.94 7.94 0 005.1-1.84l5.37 5.37a.75.75 0 101.06-1.06zM2.5 8a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+
+<div id="popup-search"
+     style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);
+            z-index:9999;justify-content:center;align-items:center;flex-direction:column;">
+  <h2 style="color:#7dcfff;font-weight:700;margin-bottom:1rem;">搜索 NovaEdge</h2>
+  <input id="popup-input" placeholder="输入关键词..."
+         style="width:280px;padding:0.6rem;border:none;border-radius:8px;
+                font-size:1rem;color:#fff;background:#1a1a1a;
+                box-shadow:0 0 12px rgba(125,207,255,0.3);outline:none;text-align:center;">
+  <button id="popup-close"
+          style="margin-top:1rem;background:none;border:none;
+                 color:#aaa;font-size:.9rem;cursor:pointer;">返回</button>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const iconBtn = document.getElementById('search-btn');
+  const popup   = document.getElementById('popup-search');
+  const input   = document.getElementById('popup-input');
+  const close   = document.getElementById('popup-close');
+
+  if (!iconBtn || !popup) return;
+
+  
+  iconBtn.addEventListener('click', () => {
+    popup.style.display = 'flex';
+    input.focus();
+  });
+
+  
+  close.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+
+  
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && input.value.trim() !== '') {
+      const q = encodeURIComponent(input.value.trim());
+      
+      window.location.href = '/search/?q=' + q;
+    }
+  });
+});
+</script>
+<main class="main">
+
+
+<main id="search-page"
+      style="min-height:100vh;padding:6rem 1rem 3rem;
+             display:flex;flex-direction:column;align-items:center;
+             background:#0b0b0b;color:#ddd;font-family:'Inter','Segoe UI',sans-serif;">
+
+  
+  <header style="position:fixed;top:0;left:0;width:100%;
+                 background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);
+                 padding:0.8rem 1.5rem;text-align:left;z-index:100;">
+    <a href="/" style="color:#7dcfff;text-decoration:none;font-weight:600;
+                       transition:color .3s ease;">← 返回首页</a>
+  </header>
+
+  
+  <h1 style="margin-top:3rem;color:#7dcfff;font-weight:700;font-size:1.8rem;
+             text-align:center;margin-bottom:1.5rem;">
+    NovaEdge 搜索
+  </h1>
+
+  
+  <div style="display:flex;justify-content:center;align-items:center;gap:0.5rem;margin-bottom:2rem;width:100%;">
+    <input id="searchInput" 
+           placeholder="输入关键词后回车..."
+           style="width:100%;max-width:420px;padding:0.7rem 1rem;
+                  border:none;border-radius:10px;background:#1a1a1a;
+                  color:#fff;font-size:1rem;outline:none;
+                  box-shadow:0 0 12px rgba(125,207,255,0.25);">
+  </div>
+
+  
+  <div id="searchResults"
+       style="width:100%;max-width:720px;display:flex;flex-direction:column;gap:1rem;"></div>
+
+</main>
+
+
+<script src="/js/fuse.basic.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const inputEl   = document.getElementById("searchInput");
+  const resultBox = document.getElementById("searchResults");
+  if (!inputEl || !resultBox) return;
+
+  let fuseInstance = null;
+  let fuseReady = false;
+
+  
+  fetch('http:\/\/localhost:1313\/index.json')
+    .then(r => r.json())
+    .then(data => {
+      fuseInstance = new Fuse(data, {
+        keys: ["title", "summary", "content"],
+        includeScore: true,
+        threshold: 0.35,
+      });
+      fuseReady = true;
+      console.log("✅ 索引加载成功，共", data.length, "篇文章");
+      autoSearchIfNeeded();
+    })
+    .catch(err => {
+      console.error("❌ 无法加载 index.json:", err);
+      resultBox.innerHTML = `<p style="text-align:center;color:#f55;">无法加载搜索索引</p>`;
+    });
+
+  
+  inputEl.addEventListener("input", () => {
+    const q = inputEl.value.trim();
+    if (!fuseReady) return;
+    if (!q) {
+      resultBox.innerHTML = `<p style="text-align:center;color:#777;">请输入关键词开始搜索</p>`;
+      return;
+    }
+
+    const hits = fuseInstance.search(q);
+    if (hits.length === 0) {
+      resultBox.innerHTML = `<p style="text-align:center;color:#777;">没有匹配 “${q}” 的结果。</p>`;
+      return;
+    }
+
+    resultBox.innerHTML = hits.slice(0, 10).map(r => {
+      const p = r.item;
+      const brief = (p.summary || p.content || "")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .slice(0, 150);
+      return `
+        <a href="${p.permalink}" 
+           style="display:block;text-decoration:none;padding:1.2rem;
+                  border-radius:12px;background:rgba(255,255,255,0.04);
+                  border:1px solid rgba(255,255,255,0.08);
+                  transition:all .25s ease;">
+          <h3 style="margin:0 0 .4rem 0;color:#7dcfff;font-size:1.1rem;">${p.title}</h3>
+          <p style="color:#aaa;font-size:.9rem;line-height:1.5;margin:0;">${brief}...</p>
+        </a>`;
+    }).join("");
+  });
+
+  
+  function autoSearchIfNeeded() {
+    const params = new URLSearchParams(window.location.search);
+    const presetQ = params.get("q");
+    if (!presetQ) return;
+    inputEl.value = presetQ;
+    setTimeout(() => {
+      inputEl.dispatchEvent(new Event("input"));
+    }, 300);
+  }
+});
+</script>
+
+
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">NovaEdge - 技术与思考的边界</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

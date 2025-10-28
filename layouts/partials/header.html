@@ -1,0 +1,45 @@
+<header class="custom-header"
+  style="position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.85);
+         backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);
+         padding:0.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;">
+
+  <!-- 左侧 Logo+站点名 -->
+  <a href="/" style="display:flex;align-items:center;text-decoration:none;">
+    <img src="/images/logo.png" alt="NovaEdge Logo"
+         style="height:36px;width:36px;object-fit:cover;border-radius:8px;
+                box-shadow:0 0 8px rgba(125,207,255,0.5);margin-right:10px;">
+    <span style="font-size:1.1rem;font-weight:600;color:#f0f0f0;">NovaEdge</span>
+  </a>
+
+  <!-- 右侧菜单 -->
+  <nav style="display:flex;align-items:center;gap:1.2rem;">
+    <a href="/posts"
+       style="color:#ccc;text-decoration:none;font-weight:500;transition:color .25s ease;">
+       文章
+    </a>
+
+    <a href="/about"
+       style="color:#ccc;text-decoration:none;font-weight:500;transition:color .25s ease;">
+       关于
+    </a>
+
+    <!-- 搜索按钮 -->
+    <button id="open-search"
+            style="background:none;border:none;cursor:pointer;display:flex;align-items:center;">
+      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" style="fill:#ccc;transition:fill .2s;">
+        <path d="M19.53 18.47l-5.37-5.37A7.94 7.94 0 0016 8a8 8 0 10-8 8 7.94 7.94 0 005.1-1.84l5.37 5.37a.75.75 0 101.06-1.06zM2.5 8a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z"/>
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('open-search');
+  if (!btn) return;
+  // 点击放大镜 => 直接跳到 /search/
+  btn.addEventListener('click', () => {
+    window.location.href = '/search/';
+  });
+});
+</script>

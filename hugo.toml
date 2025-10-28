@@ -1,0 +1,72 @@
+baseURL = "http://localhost/"
+languageCode = "zh-cn"
+title = "NovaEdge - 技术与思考的边界"
+theme = "PaperMod"
+enableRobotsTXT = true
+[pagination]
+  pagerSize = 10
+[params]
+  author = "闫涛"
+  description = "记录技术、认知与创造的旅程。"
+  keywords = ["Hugo", "PaperMod", "技术博客", "AI", "前端"]
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowToc = true
+  ShowTags = true
+  ShowPostNavLinks = true
+  ShowPostFeaturedImage = true
+  ShowListFeaturedImage = true
+  ShowPostTags = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  customCSS = ["css/custom.css"]
+  comments = false
+  defaultTheme = "dark"
+  disableThemeToggle = false
+  DateFormat = "2006-01-02"
+[params.assets]
+favicon = "/images/favicon.png"
+favicon16x16 = "/images/favicon.png"
+favicon32x32 = "/images/favicon.png"
+apple_touch_icon = "/images/favicon.png"
+safari_pinned_tab = "/images/favicon.png"
+
+
+ #[params.homeInfoParams]
+#  Title = "NovaEdge"
+#  Content = "探索技术、设计与人类思维的边界。"
+
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 20
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+[related]
+threshold = 80
+includeNewer = true
+toLower = false
+
+[[related.indices]]
+name = "tags"
+weight = 100
+
+[[related.indices]]
+name = "categories"
+weight = 80

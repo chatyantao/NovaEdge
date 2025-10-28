@@ -1,0 +1,127 @@
+/* =============== 全局字体优化 =============== */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;700&display=swap');
+
+body {
+  font-family: "Noto Sans SC", "JetBrains Mono", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #e8e8e8;
+  background-color: #0e0e0e;
+}
+
+h1, h2, h3, h4 {
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+/* 链接颜色 */
+a {
+  color: #7dcfff;
+  transition: color 0.25s ease;
+}
+a:hover {
+  color: #89ddff;
+}
+
+/* =============== Logo 动效 =============== */
+.logo {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-right: 10px;
+  transition: transform 0.4s ease, filter 0.6s ease;
+  filter: drop-shadow(0 0 4px rgba(125, 207, 255, 0.5));
+}
+
+.logo-link:hover .logo {
+  transform: rotate(8deg) scale(1.08);
+  filter: drop-shadow(0 0 10px rgba(125, 207, 255, 0.8));
+}
+
+/* 标题旁文字 */
+.site-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f0f0f0;
+  letter-spacing: 0.03em;
+}
+
+/* =============== 导航栏优化 =============== */
+.custom-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* 菜单项美化 */
+.custom-navbar a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.custom-navbar a:hover {
+  color: #7dcfff;
+  transform: translateY(-2px);
+}
+
+/* =============== 首页卡片布局优化 =============== */
+.article-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* 文章标题 hover 效果 */
+.article-card a {
+  transition: color 0.25s ease;
+}
+.article-card a:hover {
+  color: #7dcfff;
+}
+
+/* =============== 动画细节 =============== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.home-info {
+  animation: fadeInUp 1.2s ease-out;
+}
+
+/* 滚动条样式（细节） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(125, 207, 255, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 207, 255, 0.6);
+}
+#nav-search:focus {
+  box-shadow: 0 0 12px rgba(125, 207, 255, 0.6);
+  background: rgba(20, 20, 20, 0.95);
+}
+#search-btn:hover svg {
+  fill: #7dcfff;
+  transition: fill 0.3s ease;
+}
