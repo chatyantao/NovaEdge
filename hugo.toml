@@ -1,73 +1,135 @@
-baseURL = "https://novaedge.vip"
+# =====================================================
+# 🧩 NovaEdge Blog - Hugo 主配置文件
+# 适用于 PaperMod 主题 + Cloudflare Pages 部署
+# =====================================================
+
+baseURL = "https://novaedge.vip/"
 languageCode = "zh-cn"
-title = "NovaEdge - 技术与思考的边界"
+title = "NovaEdge Blog"
 theme = "PaperMod"
+
 enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+canonifyURLs = true
+relativeURLs = false
+publishDir = "public"
+enableGitInfo = true
+defaultContentLanguage = "zh"
+
+# ✅ 新分页写法
 [pagination]
-  pagerSize = 10
+  pagerSize = 6
+# =====================================================
+# ✨ 网站显示与基础信息
+# =====================================================
 [params]
-  author = "闫涛"
-  description = "记录技术、认知与创造的旅程。"
-  keywords = ["Hugo", "PaperMod", "技术博客", "AI", "前端"]
-  assetsBaseURL = "/images/"
-  ShowReadingTime = true
-  ShowShareButtons = true
-  ShowToc = true
-  ShowTags = true
-  ShowPostNavLinks = true
-  ShowPostFeaturedImage = true
-  ShowListFeaturedImage = true
-  ShowPostTags = true
-  ShowBreadCrumbs = true
-  ShowCodeCopyButtons = true
-  customCSS = ["css/custom.css"]
-  comments = false
+  title = "NovaEdge Blog"
+  description = "技术、AI 与边缘计算的前沿笔记"
+  keywords = ["AI", "Hugo", "Cloudflare", "PaperMod", "边缘计算"]
+  author = "NovaEdge Team"
   defaultTheme = "dark"
   disableThemeToggle = false
   DateFormat = "2006-01-02"
-[params.assets]
-favicon = "/images/favicon.png"
-favicon16x16 = "/images/favicon.png"
-favicon32x32 = "/images/favicon.png"
-apple_touch_icon = "/images/favicon.png"
-safari_pinned_tab = "/images/favicon.png"
 
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  comments = false
 
- #[params.homeInfoParams]
-#  Title = "NovaEdge"
-#  Content = "探索技术、设计与人类思维的边界。"
+  # 首页卡片风格（正确写法）
+  [params.homeInfoParams]
+    Title = "👋 欢迎来到 NovaEdge"
+    Content = "记录前沿技术、AI 创意与云边计算探索。"
 
+  # 搜索配置
+  [params.search]
+    enable = true
+    placeholder = "搜索文章..."
+    fuse = true
 
+  # 封面图设置
+  [params.cover]
+    linkFullImages = true
+    hidden = false
+    responsive = true
+
+# =====================================================
+# 📁 目录结构
+# =====================================================
+[permalinks]
+  posts = "/posts/:slug/"
+  categories = "/categories/:slug/"
+  tags = "/tags/:slug/"
+
+# =====================================================
+# 🧱 菜单配置
+# =====================================================
 [menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "首页"
+    url = "/"
+    weight = 1
+
   [[menu.main]]
     identifier = "posts"
     name = "文章"
     url = "/posts/"
-    weight = 10
+    weight = 2
+
+  [[menu.main]]
+    identifier = "categories"
+    name = "分类"
+    url = "/categories/"
+    weight = 3
+
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 4
 
   [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
-    weight = 20
+    weight = 5
 
-[markup.goldmark.renderer]
-  unsafe = true
+# =====================================================
+# 🌍 Markdown 渲染
+# =====================================================
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      typographer = true
+      definitionList = true
+      footnote = true
+      linkify = true
+      table = true
+      taskList = true
+      strikethrough = true
 
+# =====================================================
+# 🧩 部署优化
+# =====================================================
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+# =====================================================
+# ⚙️ 生成搜索索引（index.json）
+# =====================================================
 [outputs]
   home = ["HTML", "RSS", "JSON"]
-[taxonomies]
-  category = "categories"
-  tag = "tags"
-[related]
-threshold = 80
-includeNewer = true
-toLower = false
 
-[[related.indices]]
-name = "tags"
-weight = 100
-
-[[related.indices]]
-name = "categories"
-weight = 80
+# =====================================================
+# 🔧 构建选项
+# =====================================================
+[build]
+  writeStats = false
