@@ -1,4 +1,4 @@
-baseURL = "http://localhost/"
+baseURL = "https://novaedge.vip"
 languageCode = "zh-cn"
 title = "NovaEdge - 技术与思考的边界"
 theme = "PaperMod"
@@ -9,6 +9,7 @@ enableRobotsTXT = true
   author = "闫涛"
   description = "记录技术、认知与创造的旅程。"
   keywords = ["Hugo", "PaperMod", "技术博客", "AI", "前端"]
+  assetsBaseURL = "/images/"
   ShowReadingTime = true
   ShowShareButtons = true
   ShowToc = true

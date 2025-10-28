@@ -1,0 +1,10 @@
+# Hugo build output
+/public/
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+# Node
+node_modules/
+# Hugo cache
+/resources/_gen/
+hugo_stats.json

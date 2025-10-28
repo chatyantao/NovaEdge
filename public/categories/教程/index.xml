@@ -1,24 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>教程 on NovaEdge - 技术与思考的边界</title>
-    <link>http://localhost:1313/categories/%E6%95%99%E7%A8%8B/</link>
-    <description>Recent content in 教程 on NovaEdge - 技术与思考的边界</description>
-    <generator>Hugo -- 0.152.2</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Mon, 27 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Cloudflare Workers 实战：用边缘计算打造免费中转服务</title>
-      <link>http://localhost:1313/posts/cloudflare-workers-tutorial/</link>
-      <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/cloudflare-workers-tutorial/</guid>
-      <description>&lt;h2 id=&#34;前言边缘计算不只是加速网页&#34;&gt;前言：边缘计算，不只是加速网页&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>教程 on NovaEdge - 技术与思考的边界</title><link>https://novaedge.vip/categories/%E6%95%99%E7%A8%8B/</link><description>Recent content in 教程 on NovaEdge - 技术与思考的边界</description><generator>Hugo -- 0.152.2</generator><language>zh-cn</language><lastBuildDate>Mon, 27 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://novaedge.vip/categories/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Cloudflare Workers 实战：用边缘计算打造免费中转服务</title><link>https://novaedge.vip/posts/cloudflare-workers-tutorial/</link><pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate><guid>https://novaedge.vip/posts/cloudflare-workers-tutorial/</guid><description>&lt;h2 id="前言边缘计算不只是加速网页"&gt;前言：边缘计算，不只是加速网页&lt;/h2&gt;
 &lt;p&gt;很多人知道 Cloudflare 提供免费 CDN（内容分发网络），但其实它的「Workers」功能更有趣——它让开发者在全球 300 多个节点上运行自定义脚本，相当于你拥有一个分布在世界各地的迷你云平台。&lt;/p&gt;
 &lt;p&gt;这意味着你可以让一个 JS 文件，在离用户最近的节点上实时处理请求、转发数据、加密流量——完全不需要传统服务器。&lt;/p&gt;
 &lt;p&gt;今天我们就来看看：如何用 Workers 部署一个简单的「中转服务」，让请求能自动从最近节点发出，体验“免费且分布式的边缘计算威力”。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;一原理概览workers-是什么&#34;&gt;一、原理概览：Workers 是什么？&lt;/h2&gt;
+&lt;h2 id="一原理概览workers-是什么"&gt;一、原理概览：Workers 是什么？&lt;/h2&gt;
 &lt;p&gt;Cloudflare Workers 基于 V8 引擎（Chrome 的 JavaScript 核心），本质上是运行在 Cloudflare 全球网络上的轻量无服务器函数 (Serverless Function)。&lt;/p&gt;
 &lt;p&gt;你写几行 JS 代码，它就能在 Cloudflare 节点执行逻辑，比如：&lt;/p&gt;
 &lt;ul&gt;
@@ -29,11 +14,11 @@
 &lt;/ul&gt;
 &lt;p&gt;因此，无需 Nginx 或 VPS，只要写代码并部署即可。&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;二准备工作&#34;&gt;二、准备工作&lt;/h2&gt;
+&lt;h2 id="二准备工作"&gt;二、准备工作&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;注册 Cloudflare 账号&lt;/strong&gt;&lt;br&gt;
-&lt;a href=&#34;https://dash.cloudflare.com&#34;&gt;Cloudflare 控制台&lt;/a&gt;&lt;/p&gt;
+&lt;a href="https://dash.cloudflare.com"&gt;Cloudflare 控制台&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;进入 “Workers &amp;amp; Pages”&lt;/strong&gt;&lt;br&gt;
@@ -41,13 +26,10 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;安装 Wrangler 命令行工具（可选）&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install -g wrangler
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wrangler login
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;它可以帮助你快速上传代码、配置 KV 存储、管理命名空间。
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm install -g wrangler
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;wrangler login
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;它可以帮助你快速上传代码、配置 KV 存储、管理命名空间。
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;三核心思路请求转发逻辑&#34;&gt;三、核心思路：请求转发逻辑&lt;/h2&gt;
-&lt;p&gt;在 Workers 里，你可以拦截请求，然后修改路径或转发到目标站点。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+&lt;h2 id="三核心思路请求转发逻辑"&gt;三、核心思路：请求转发逻辑&lt;/h2&gt;
+&lt;p&gt;在 Workers 里，你可以拦截请求，然后修改路径或转发到目标站点。&lt;/p&gt;</description></item></channel></rss>
