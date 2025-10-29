@@ -1,6 +1,6 @@
 # =====================================================
-# 🧩 NovaEdge Blog - Hugo 主配置文件
-# 适用于 PaperMod 主题 + Cloudflare Pages 部署
+# 🧩 NovaEdge Blog - Hugo 主配置文件（PaperMod + Cloudflare Pages）
+# 作者：NovaEdge Team ｜ https://novaedge.vip/
 # =====================================================
 
 baseURL = "https://novaedge.vip/"
@@ -8,21 +8,25 @@ languageCode = "zh-cn"
 title = "NovaEdge Blog"
 theme = "PaperMod"
 
+# =====================================================
+# 🚀 基础构建选项
+# =====================================================
 enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
 buildExpired = false
-canonifyURLs = true
-relativeURLs = false
+canonifyURLs = true        # 强制绝对路径，防止 /images 加载出错
+relativeURLs = false       # 禁止相对路径，否则 Cloudflare 可能错乱
 publishDir = "public"
 enableGitInfo = true
 defaultContentLanguage = "zh"
 
-# ✅ 新分页写法
+# Hugo v0.152+ 新分页写法
 [pagination]
   pagerSize = 6
+
 # =====================================================
-# ✨ 网站显示与基础信息
+# ✨ 站点信息与外观
 # =====================================================
 [params]
   title = "NovaEdge Blog"
@@ -33,32 +37,36 @@ defaultContentLanguage = "zh"
   disableThemeToggle = false
   DateFormat = "2006-01-02"
 
+  # ======= 页面展示元素 =======
   ShowReadingTime = true
   ShowShareButtons = true
   ShowPostNavLinks = true
   ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
   ShowToc = true
   comments = false
 
-  # 首页卡片风格（正确写法）
+  # ======= 首页卡片信息 =======
   [params.homeInfoParams]
     Title = "👋 欢迎来到 NovaEdge"
     Content = "记录前沿技术、AI 创意与云边计算探索。"
 
-  # 搜索配置
+  # ======= 搜索配置 =======
   [params.search]
     enable = true
+    provider = "local"        # 使用 Hugo 生成本地搜索索引
+    indexURL = "/index.json"  # 关键：生成 index.json
     placeholder = "搜索文章..."
-    fuse = true
+    fuse = true               # 使用 Fuse.js 进行本地模糊搜索
 
-  # 封面图设置
+  # ======= 封面图与图像行为 =======
   [params.cover]
     linkFullImages = true
     hidden = false
     responsive = true
 
 # =====================================================
-# 📁 目录结构
+# 📁 URL 与目录结构
 # =====================================================
 [permalinks]
   posts = "/posts/:slug/"
@@ -66,7 +74,7 @@ defaultContentLanguage = "zh"
   tags = "/tags/:slug/"
 
 # =====================================================
-# 🧱 菜单配置
+# 🧱 顶部菜单
 # =====================================================
 [menu]
   [[menu.main]]
@@ -100,7 +108,7 @@ defaultContentLanguage = "zh"
     weight = 5
 
 # =====================================================
-# 🌍 Markdown 渲染
+# 🌍 Markdown 渲染（允许 HTML）
 # =====================================================
 [markup]
   [markup.goldmark]
@@ -116,20 +124,29 @@ defaultContentLanguage = "zh"
       strikethrough = true
 
 # =====================================================
-# 🧩 部署优化
+# ⚡ 搜索与索引（核心配置）
+# =====================================================
+[outputs]
+  home = ["HTML", "RSS", "JSON"]   # 生成 index.json，供搜索使用
+
+# =====================================================
+# 🧩 部署与性能优化
 # =====================================================
 [minify]
   disableXML = true
   minifyOutput = true
 
-# =====================================================
-# ⚙️ 生成搜索索引（index.json）
-# =====================================================
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
-
-# =====================================================
-# 🔧 构建选项
-# =====================================================
 [build]
   writeStats = false
+
+# =====================================================
+# 🌐 Cloudflare Pages 兼容优化
+# =====================================================
+[mediaTypes."application/json"]
+  suffixes = ["json"]
+
+[outputFormats.JSON]
+  mediaType = "application/json"
+  baseName = "index"
+  isPlainText = false
+  notAlternative = true
