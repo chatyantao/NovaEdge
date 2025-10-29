@@ -1,52 +1,43 @@
 @echo off
 chcp 65001 >nul
-title 🚀 NovaEdge 一键部署脚本
+echo =====================================================
+echo 🚀 NovaEdge Blog 一键部署脚本
+echo =====================================================
 
-echo =========================================
-echo 🚀 NovaEdge Blog 一键部署开始...
-echo =========================================
-echo.
+REM === 清理旧缓存 ===
+echo 🧹 正在清除 Hugo 缓存...
+hugo mod clean
+if exist resources rd /s /q resources
+if exist public rd /s /q public
+echo ✅ 缓存清理完成。
 
-REM 第1步：清理旧构建
-echo 🧹 清理旧构建文件...
-if exist public rmdir /s /q public
-
-REM 第2步：生成静态文件
-echo 🏗️ 生成 Hugo 静态文件中...
-hugo --gc --minify
-if errorlevel 1 (
-    echo ❌ Hugo 构建失败！
+REM === 重新构建网站 ===
+echo 🏗️ 开始构建 Hugo 静态文件...
+hugo --gc --minify --baseURL "https://novaedge.vip/"
+if %errorlevel% neq 0 (
+    echo ❌ 构建失败，请检查 hugo.toml 或内容文件！
     pause
     exit /b
 )
+echo ✅ 构建完成，已生成 public 文件夹。
 
-REM 第3步：准备提交到 GitHub
-echo.
+REM === 推送到 GitHub ===
 echo 🧩 准备提交到 GitHub 仓库...
-git add -A
+git add .
+git commit -m "Auto Deploy: %date% %time%" >nul 2>&1
 
-REM 自动生成提交信息（附时间）
-set commitMsg=Auto Deploy: %date% %time%
-git commit -m "%commitMsg%"
-if errorlevel 1 (
-    echo ⚠️ 没有可提交的更改，继续下一步...
-)
-
-REM 第4步：推送到远程仓库
-echo.
-echo ⏫ 推送到 GitHub...
-git push origin main
-if errorlevel 1 (
+echo ⏫ 正在推送到 GitHub...
+git push
+if %errorlevel% neq 0 (
     echo ❌ 推送失败，请检查网络或 Git 认证。
     pause
     exit /b
 )
 
-REM 第5步：打开 Cloudflare 页面
-echo.
-echo 🌐 部署完成！正在打开网站...
-start https://novaedge.vip/
+echo =====================================================
+echo ✅ 部署完成！
+echo 🌐 访问地址: https://novaedge.vip
+echo 💡 Cloudflare Pages 会自动检测 push 并开始重新构建。
+echo =====================================================
 
-echo.
-echo ✅ 所有步骤完成！
 pause
