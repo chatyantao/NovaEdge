@@ -54,7 +54,7 @@ if defined PROXYON (
 echo ✅ Deployment complete!
 
 REM Open site (change URL to your GitHub Pages)
-set BLOG_URL=https://chatyantao.github.io/NovaEdge
+set BLOG_URL=https://novaedge.vip
 
 echo 🌍 Opening: %BLOG_URL%
 start %BLOG_URL%
