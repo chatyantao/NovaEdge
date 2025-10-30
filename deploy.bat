@@ -6,8 +6,7 @@ echo 🚀 Hugo Deploy Script (UTF-8)
 echo =================================
 
 REM Build site
-echo 🛠  Building Hugo site...
-hugo -D
+hugo -D --destination docs
 if %errorlevel% neq 0 (
     echo ❌ Hugo build failed!
     pause
