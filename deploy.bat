@@ -7,6 +7,7 @@ echo =================================
 
 REM Build site
 hugo -D --destination docs
+publishDir = "docs"
 if %errorlevel% neq 0 (
     echo ❌ Hugo build failed!
     pause
