@@ -1,108 +1,84 @@
 @echo off
 chcp 65001 >nul
 
-echo =====================================
-echo 🚀 NovaEdge Blog Deploy System
-echo =====================================
+echo ==========================================
+echo 🚀 NovaEdge 一键部署系统 - 火力全开
+echo ==========================================
 
-:: 检查 Hugo
-echo ⏳ Checking Hugo...
-where hugo >nul 2>nul
-if %ERRORLEVEL% neq 0 (
-    echo ❌ Hugo 未安装！请把 hugo.exe 放到当前目录或加入 PATH
-    pause
-    exit /b
+REM -------- Git 用户身份检查 ----------
+git config --global user.name >nul 2>&1
+if %errorlevel% neq 0 (
+    echo 👤 未检测到 Git 用户配置，正在设置...
+    git config --global user.name "chatyantao"
+    git config --global user.email "chatyantao@gmail.com"
 )
 
-:: 检查 Git
-echo ⏳ Checking Git...
-where git >nul 2>nul
-if %ERRORLEVEL% neq 0 (
-    echo ❌ Git 未安装！
-    pause
-    exit /b
-)
+echo ✅ Git 用户身份已确认
 
-:: 检查 public 是否需要清理
-if exist public (
-    echo 🧹 Cleaning old build...
-    rmdir /S /Q public
-)
+REM -------- 清理 Hugo 输出 ----------
+echo 🧹 清理历史构建文件...
+if exist public rmdir /s /q public
 
-:: 保证 CNAME 不被删
+REM -------- 保留 Cloudflare CNAME ----------
 if exist docs\CNAME (
-    echo 🔒 CNAME 已存在，保持 Cloudflare 域名
+    echo 🔒 检测到 CNAME，确保 Cloudflare 域名不丢失...
+    copy docs\CNAME CNAME >nul
 )
 
-:: Hugo 构建
-echo ⚙️  Building site with Hugo...
+REM -------- Hugo 构建 ----------
+echo 🛠 运行 Hugo 构建...
 hugo -D
-if %ERRORLEVEL% neq 0 (
-    echo ❌ Hugo build 失败！
+if %errorlevel% neq 0 (
+    echo ❌ Hugo 构建失败！
     pause
     exit /b
 )
 
-:: Git 状态检查
-echo 📦 Checking git status...
-git status --porcelain >temp_git_status.txt
-findstr /R /C:"." temp_git_status.txt >nul
-if %ERRORLEVEL% neq 0 (
-    echo ✅ 工作区干净，无需提交
-) else (
-    echo 📝 Committing changes...
-    git add .
-    git commit -m "Auto deploy at %DATE% %TIME%"
-)
-del temp_git_status.txt
+echo ✅ Hugo 构建完成
 
-:: 自动避免 rebase 冲突
-git pull --rebase
-if %ERRORLEVEL% neq 0 (
-    echo ⚠️  Git rebase 出现冲突，请手动解决！
-    pause
-    exit /b
+REM -------- CNAME 写回到 docs ----------
+if exist CNAME (
+    move CNAME docs\CNAME >nul
+    echo 🔁 已写回 CNAME，域名安全 ✅
 )
 
-:: 自动检测代理端口
-echo 🌐 Checking proxy...
-set PROXY=""
-for %%P in (7890 1080 8080) do (
-    netstat -ano | findstr "%%P" >nul && set PROXY=%%P
+REM -------- Git 更新流程 ----------
+echo 📦 准备提交代码...
+
+git add .
+git commit -m "Auto deploy at %date% %time%" >nul 2>&1
+
+echo 🔍 检查冲突与未提交状态...
+git status | find "rebase in progress" >nul
+if %errorlevel%==0 (
+    echo ⚠ 检测到 rebase 进行中，正在修复...
+    git rebase --abort
 )
 
-if defined PROXY (
-    echo ✅ 代理检测到端口 %PROXY%，启用 Git Proxy
-    git config --global http.proxy http://127.0.0.1:%PROXY%
-    git config --global https.proxy http://127.0.0.1:%PROXY%
-) else (
-    echo ⚠ 无代理，直连模式
+git pull --rebase >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ⚠ 检测到冲突，执行自动 stash...
+    git stash
+    git pull --rebase
+    git stash pop
 )
 
-:: 优先走 SSH（更快，不被 reset）
-echo 🔐 Switching Git remote to SSH...
-git remote set-url origin git@github.com:chatyantao/NovaEdge.git
-
-:: 推送
-echo 🚀 Pushing to GitHub...
+echo 🚢 推送到 GitHub...
 git push
-if %ERRORLEVEL% neq 0 (
-    echo ❌ push 失败！
+if %errorlevel% neq 0 (
+    echo ❌ 推送失败！请检查网络 或 GitHub Token
     pause
     exit /b
 )
 
-:: 清理代理
-if defined PROXY (
-    echo 🧹 Clearing Git proxy...
-    git config --global --unset http.proxy
-    git config --global --unset https.proxy
-)
+echo ✅ Git 推送成功
 
-echo 🌍 部署完成，打开网站...
-start https://novaedge.vip/
+REM -------- 打开博客 ----------
+set BLOG_URL=https://novaedge.vip
+echo 🌍 打开网站：%BLOG_URL%
+start %BLOG_URL%
 
-echo =====================================
-echo ✅ Done！你的博客已全球发布
-echo =====================================
+echo ==========================================
+echo 🎉 部署完成！博客更新已上线！
+echo ==========================================
 pause

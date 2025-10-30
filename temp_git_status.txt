@@ -1,2 +1,0 @@
- M themes/PaperMod
-?? temp_git_status.txt
