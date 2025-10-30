@@ -1,49 +1,65 @@
 @echo off
-title 🚀 Hugo 自动部署脚本
+chcp 65001 >nul
 
 echo =================================
-echo 🧹 清理旧文件
+echo 🚀 Hugo Deploy Script (UTF-8)
 echo =================================
-if exist public rmdir /s /q public
 
-echo =================================
-echo 🛠️ 生成静态文件
-echo =================================
-hugo --gc --minify
-
-if errorlevel 1 (
-    echo ❌ Hugo 构建失败，停止部署。
+REM Build site
+echo 🛠  Building Hugo site...
+hugo -D
+if %errorlevel% neq 0 (
+    echo ❌ Hugo build failed!
     pause
     exit /b
 )
 
-echo ✅ Hugo 构建完成！
+REM Check proxy
+echo 🌐 Checking proxy state...
+setlocal
+for /f "tokens=2 delims=:" %%A in ('netstat -ano ^| find ":7890"') do (
+    set PROXYON=true
+)
 
-echo =================================
-echo 📤 提交到 GitHub
-echo =================================
+if defined PROXYON (
+    echo ✅ Proxy detected, applying Git proxy...
+    git config --global http.proxy http://127.0.0.1:7890 >nul
+    git config --global https.proxy http://127.0.0.1:7890 >nul
+) else (
+    echo ⚠ No proxy detected, pushing directly...
+)
 
+REM Add & commit
+echo 📦 Staging changes...
 git add .
+git commit -m "update blog" >nul
 
-git commit -m "Auto Deploy %date% %time%"
-
-:: 确保我们在 main 分支
-git branch | findstr "main" >nul
-if errorlevel 1 git checkout main
-
-:: 强制推送
-git pull --rebase
-git push -f origin main
-
-if errorlevel 1 (
-    echo ❌ 推送失败，请检查 Token、网络 或 GitHub 权限。
+REM Push
+echo 🚢 Pushing to GitHub...
+git push
+if %errorlevel% neq 0 (
+    echo ❌ Push failed!
+    echo 💡 Please check your network or GitHub token.
     pause
     exit /b
 )
 
-echo =================================
-echo ✅ 部署完成！
-echo 🌍 访问网站: https://novaedge.vip
-echo =================================
+REM Clear Git proxy
+if defined PROXYON (
+    echo 🧹 Clearing Git proxy...
+    git config --global --unset http.proxy >nul
+    git config --global --unset https.proxy >nul
+)
 
+echo ✅ Deployment complete!
+
+REM Open site (change URL to your GitHub Pages)
+set BLOG_URL=https://chatyantao.github.io/NovaEdge
+
+echo 🌍 Opening: %BLOG_URL%
+start %BLOG_URL%
+
+echo =================================
+echo 🎉 All done! Enjoy blogging.
+echo =================================
 pause
