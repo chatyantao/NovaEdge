@@ -1,43 +1,32 @@
-# =====================================================
-# 🧩 NovaEdge Blog - Hugo 主配置文件（PaperMod + Cloudflare Pages）
-# 作者：NovaEdge Team ｜ https://novaedge.vip/
-# =====================================================
+# =========================================
+# NovaEdge Blog - Hugo Config
+# =========================================
 
 baseURL = "https://novaedge.vip/"
 languageCode = "zh-cn"
 title = "NovaEdge Blog"
 theme = "PaperMod"
 
-# =====================================================
-# 🚀 基础构建选项
-# =====================================================
 enableRobotsTXT = true
-buildDrafts = false
-buildFuture = false
-buildExpired = false
-canonifyURLs = true        # 强制绝对路径，防止 /images 加载出错
-relativeURLs = false       # 禁止相对路径，否则 Cloudflare 可能错乱
+canonifyURLs = true
+relativeURLs = false
 publishDir = "public"
 enableGitInfo = true
 defaultContentLanguage = "zh"
 
-# Hugo v0.152+ 新分页写法
+# ✅ Hugo 新版本分页写法
 [pagination]
   pagerSize = 6
 
-# =====================================================
-# ✨ 站点信息与外观
-# =====================================================
 [params]
   title = "NovaEdge Blog"
   description = "技术、AI 与边缘计算的前沿笔记"
-  keywords = ["AI", "Hugo", "Cloudflare", "PaperMod", "边缘计算"]
+  keywords = ["AI","Hugo","Cloudflare","PaperMod","边缘计算"]
   author = "NovaEdge Team"
   defaultTheme = "dark"
   disableThemeToggle = false
   DateFormat = "2006-01-02"
 
-  # ======= 页面展示元素 =======
   ShowReadingTime = true
   ShowShareButtons = true
   ShowPostNavLinks = true
@@ -46,106 +35,69 @@ defaultContentLanguage = "zh"
   ShowToc = true
   comments = false
 
-  # ======= 首页卡片信息 =======
+  # ✅ 首页信息（PaperMod Lite）
   [params.homeInfoParams]
     Title = "👋 欢迎来到 NovaEdge"
     Content = "记录前沿技术、AI 创意与云边计算探索。"
 
-  # ======= 搜索配置 =======
+  # ✅ 本地搜索配置
   [params.search]
     enable = true
-    provider = "local"        # 使用 Hugo 生成本地搜索索引
-    indexURL = "/index.json"  # 关键：生成 index.json
+    provider = "local"
+    fuse = true
+    indexURL = "/index.json"
     placeholder = "搜索文章..."
-    fuse = true               # 使用 Fuse.js 进行本地模糊搜索
 
-  # ======= 封面图与图像行为 =======
+  # ✅ 图片行为
   [params.cover]
     linkFullImages = true
-    hidden = false
     responsive = true
+    hidden = false
 
-# =====================================================
-# 📁 URL 与目录结构
-# =====================================================
+# ✅ URL 结构
 [permalinks]
   posts = "/posts/:slug/"
-  categories = "/categories/:slug/"
-  tags = "/tags/:slug/"
 
-# =====================================================
-# 🧱 顶部菜单
-# =====================================================
+# ✅ 菜单
 [menu]
   [[menu.main]]
-    identifier = "home"
     name = "首页"
     url = "/"
     weight = 1
 
   [[menu.main]]
-    identifier = "posts"
     name = "文章"
     url = "/posts/"
     weight = 2
 
   [[menu.main]]
-    identifier = "categories"
     name = "分类"
     url = "/categories/"
     weight = 3
 
   [[menu.main]]
-    identifier = "tags"
     name = "标签"
     url = "/tags/"
     weight = 4
 
   [[menu.main]]
-    identifier = "about"
     name = "关于"
     url = "/about/"
     weight = 5
 
-# =====================================================
-# 🌍 Markdown 渲染（允许 HTML）
-# =====================================================
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-    [markup.goldmark.extensions]
-      typographer = true
-      definitionList = true
-      footnote = true
-      linkify = true
-      table = true
-      taskList = true
-      strikethrough = true
+# ✅ 渲染设置（允许 HTML）
+[markup.goldmark.renderer]
+  unsafe = true
 
-# =====================================================
-# ⚡ 搜索与索引（核心配置）
-# =====================================================
+# ✅ 搜索 JSON 输出
 [outputs]
-  home = ["HTML", "RSS", "JSON"]   # 生成 index.json，供搜索使用
-  page = ["HTML"]
+  home = ["HTML", "RSS", "JSON"]
   section = ["HTML", "RSS"]
   taxonomy = ["HTML", "RSS"]
   term = ["HTML", "RSS"]
-  search = ["HTML"]
-# =====================================================
-# 🧩 部署与性能优化
-# =====================================================
-[minify]
-  disableXML = true
-  minifyOutput = true
+  page = ["HTML"]
 
-[build]
-  writeStats = false
-
-# =====================================================
-# 🌐 Cloudflare Pages 兼容优化
-# =====================================================
+# ✅ JSON 模式声明（防止 Cloudflare MIME 警告）
 [mediaTypes."application/json"]
   suffixes = ["json"]
 
@@ -154,3 +106,8 @@ defaultContentLanguage = "zh"
   baseName = "index"
   isPlainText = false
   notAlternative = true
+
+# ✅ 输出优化
+[minify]
+  disableXML = true
+  minifyOutput = true
