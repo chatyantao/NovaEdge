@@ -1,65 +1,108 @@
 @echo off
 chcp 65001 >nul
 
-echo =================================
-echo 🚀 Hugo Deploy Script (UTF-8)
-echo =================================
+echo =====================================
+echo 🚀 NovaEdge Blog Deploy System
+echo =====================================
 
-REM Build site
-hugo -D --destination docs
-publishDir = "docs"
-if %errorlevel% neq 0 (
-    echo ❌ Hugo build failed!
+:: 检查 Hugo
+echo ⏳ Checking Hugo...
+where hugo >nul 2>nul
+if %ERRORLEVEL% neq 0 (
+    echo ❌ Hugo 未安装！请把 hugo.exe 放到当前目录或加入 PATH
     pause
     exit /b
 )
 
-REM Check proxy
-echo 🌐 Checking proxy state...
-setlocal
-for /f "tokens=2 delims=:" %%A in ('netstat -ano ^| find ":7890"') do (
-    set PROXYON=true
+:: 检查 Git
+echo ⏳ Checking Git...
+where git >nul 2>nul
+if %ERRORLEVEL% neq 0 (
+    echo ❌ Git 未安装！
+    pause
+    exit /b
 )
 
-if defined PROXYON (
-    echo ✅ Proxy detected, applying Git proxy...
-    git config --global http.proxy http://127.0.0.1:7890 >nul
-    git config --global https.proxy http://127.0.0.1:7890 >nul
+:: 检查 public 是否需要清理
+if exist public (
+    echo 🧹 Cleaning old build...
+    rmdir /S /Q public
+)
+
+:: 保证 CNAME 不被删
+if exist docs\CNAME (
+    echo 🔒 CNAME 已存在，保持 Cloudflare 域名
+)
+
+:: Hugo 构建
+echo ⚙️  Building site with Hugo...
+hugo -D
+if %ERRORLEVEL% neq 0 (
+    echo ❌ Hugo build 失败！
+    pause
+    exit /b
+)
+
+:: Git 状态检查
+echo 📦 Checking git status...
+git status --porcelain >temp_git_status.txt
+findstr /R /C:"." temp_git_status.txt >nul
+if %ERRORLEVEL% neq 0 (
+    echo ✅ 工作区干净，无需提交
 ) else (
-    echo ⚠ No proxy detected, pushing directly...
+    echo 📝 Committing changes...
+    git add .
+    git commit -m "Auto deploy at %DATE% %TIME%"
 )
+del temp_git_status.txt
 
-REM Add & commit
-echo 📦 Staging changes...
-git add .
-git commit -m "update blog" >nul
-
-REM Push
-echo 🚢 Pushing to GitHub...
-git push
-if %errorlevel% neq 0 (
-    echo ❌ Push failed!
-    echo 💡 Please check your network or GitHub token.
+:: 自动避免 rebase 冲突
+git pull --rebase
+if %ERRORLEVEL% neq 0 (
+    echo ⚠️  Git rebase 出现冲突，请手动解决！
     pause
     exit /b
 )
 
-REM Clear Git proxy
-if defined PROXYON (
-    echo 🧹 Clearing Git proxy...
-    git config --global --unset http.proxy >nul
-    git config --global --unset https.proxy >nul
+:: 自动检测代理端口
+echo 🌐 Checking proxy...
+set PROXY=""
+for %%P in (7890 1080 8080) do (
+    netstat -ano | findstr "%%P" >nul && set PROXY=%%P
 )
 
-echo ✅ Deployment complete!
+if defined PROXY (
+    echo ✅ 代理检测到端口 %PROXY%，启用 Git Proxy
+    git config --global http.proxy http://127.0.0.1:%PROXY%
+    git config --global https.proxy http://127.0.0.1:%PROXY%
+) else (
+    echo ⚠ 无代理，直连模式
+)
 
-REM Open site (change URL to your GitHub Pages)
-set BLOG_URL=https://novaedge.vip
+:: 优先走 SSH（更快，不被 reset）
+echo 🔐 Switching Git remote to SSH...
+git remote set-url origin git@github.com:chatyantao/NovaEdge.git
 
-echo 🌍 Opening: %BLOG_URL%
-start %BLOG_URL%
+:: 推送
+echo 🚀 Pushing to GitHub...
+git push
+if %ERRORLEVEL% neq 0 (
+    echo ❌ push 失败！
+    pause
+    exit /b
+)
 
-echo =================================
-echo 🎉 All done! Enjoy blogging.
-echo =================================
+:: 清理代理
+if defined PROXY (
+    echo 🧹 Clearing Git proxy...
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
+)
+
+echo 🌍 部署完成，打开网站...
+start https://novaedge.vip/
+
+echo =====================================
+echo ✅ Done！你的博客已全球发布
+echo =====================================
 pause
