@@ -1,84 +1,77 @@
 @echo off
-chcp 65001 >nul
+title 🚀 NovaEdge Auto Deploy
 
-echo ==========================================
-echo 🚀 NovaEdge 一键部署系统 - 火力全开
-echo ==========================================
+echo -------------------------------------
+echo 🚀 NovaEdge 博客自动部署启动
+echo -------------------------------------
 
-REM -------- Git 用户身份检查 ----------
-git config --global user.name >nul 2>&1
-if %errorlevel% neq 0 (
-    echo 👤 未检测到 Git 用户配置，正在设置...
+:: 强制切到脚本目录
+cd /d %~dp0
+
+:: 检查 Git 配置（避免 Unknown author）
+for /f "delims=" %%i in ('git config user.name') do set GITNAME=%%i
+for /f "delims=" %%i in ('git config user.email') do set GITEMAIL=%%i
+
+if "%GITNAME%"=="" (
+    echo ⚠️ 检测到未配置 git 用户名，正在自动设置...
     git config --global user.name "chatyantao"
+)
+if "%GITEMAIL%"=="" (
+    echo ⚠️ 检测到未配置 git 邮箱，正在自动设置...
     git config --global user.email "chatyantao@gmail.com"
 )
 
-echo ✅ Git 用户身份已确认
+echo ✅ Git 用户信息已确认
 
-REM -------- 清理 Hugo 输出 ----------
-echo 🧹 清理历史构建文件...
-if exist public rmdir /s /q public
-
-REM -------- 保留 Cloudflare CNAME ----------
-if exist docs\CNAME (
-    echo 🔒 检测到 CNAME，确保 Cloudflare 域名不丢失...
-    copy docs\CNAME CNAME >nul
+echo.
+echo 🔄 检查远程更新...
+git pull --rebase
+if %errorlevel% neq 0 (
+    echo ⚠️ 远程更新冲突，执行恢复...
+    git rebase --abort >nul 2>&1
+    echo ✅ 已恢复 rebase
 )
 
-REM -------- Hugo 构建 ----------
-echo 🛠 运行 Hugo 构建...
+:: 备份 docs 防止人祸
+if exist docs (
+    echo 📦 备份 docs
+    rmdir /s /q docs_backup 2>nul
+    ren docs docs_backup
+)
+
+echo.
+echo 🧹 清理旧 build
+rmdir /s /q public 2>nul
+
+echo.
+echo 🏗️ 使用 Hugo 生成静态网站...
 hugo -D
+
 if %errorlevel% neq 0 (
-    echo ❌ Hugo 构建失败！
+    echo ❌ Hugo 构建失败
     pause
     exit /b
 )
 
-echo ✅ Hugo 构建完成
+echo.
+echo 📁 将 public 重命名为 docs
+ren public docs
 
-REM -------- CNAME 写回到 docs ----------
-if exist CNAME (
-    move CNAME docs\CNAME >nul
-    echo 🔁 已写回 CNAME，域名安全 ✅
-)
-
-REM -------- Git 更新流程 ----------
-echo 📦 准备提交代码...
-
+echo.
+echo 📝 git 提交更新...
 git add .
-git commit -m "Auto deploy at %date% %time%" >nul 2>&1
+git commit -m "auto: deploy at %date% %time%" >nul 2>&1
 
-echo 🔍 检查冲突与未提交状态...
-git status | find "rebase in progress" >nul
-if %errorlevel%==0 (
-    echo ⚠ 检测到 rebase 进行中，正在修复...
-    git rebase --abort
-)
-
-git pull --rebase >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ⚠ 检测到冲突，执行自动 stash...
-    git stash
-    git pull --rebase
-    git stash pop
-)
-
-echo 🚢 推送到 GitHub...
+echo 🚚 推送到 GitHub...
 git push
+
 if %errorlevel% neq 0 (
-    echo ❌ 推送失败！请检查网络 或 GitHub Token
-    pause
-    exit /b
+    echo ❌ 推送失败！执行最终补救...
+    git pull --rebase
+    git push
 )
 
-echo ✅ Git 推送成功
-
-REM -------- 打开博客 ----------
-set BLOG_URL=https://novaedge.vip
-echo 🌍 打开网站：%BLOG_URL%
-start %BLOG_URL%
-
-echo ==========================================
-echo 🎉 部署完成！博客更新已上线！
-echo ==========================================
+echo -------------------------------------
+echo ✅ ✅ ✅  部署成功！访问: https://novaedge.vip/
+echo -------------------------------------
 pause
