@@ -1,68 +1,43 @@
 @echo off
 chcp 65001 >nul
 
-title NovaEdge Deploy
+echo 🚀 NovaEdge Hugo Auto Deploy
+echo -------------------------------------
 
-echo ========== NovaEdge Auto Deploy ==========
-
-cd /d %~dp0
-
-:: Ensure git identity
-for /f "delims=" %%i in ('git config user.name') do set GITNAME=%%i
-for /f "delims=" %%i in ('git config user.email') do set GITEMAIL=%%i
-
-if "%GITNAME%"=="" git config --global user.name "chatyantao"
-if "%GITEMAIL%"=="" git config --global user.email "chatyantao@gmail.com"
-
-echo [OK] Git user configured
-
-echo.
-echo [STEP] Pull latest changes...
-git pull --rebase
-if %errorlevel% neq 0 (
-    echo [WARN] Rebase conflict, aborting...
-    git rebase --abort >nul 2>&1
-)
-
-:: Backup docs
+REM 1) 清理旧构建
+echo 🧹 Cleaning old docs...
 if exist docs (
-    echo [STEP] Backup old docs...
-    rmdir /s /q docs_backup 2>nul
-    ren docs docs_backup
+    rd /s /q docs
 )
 
-:: Clean old public
-rmdir /s /q public 2>nul
-
-echo.
-echo [STEP] Build Hugo...
+REM 2) 构建 Hugo 输出
+echo 🏗️ Building site with Hugo...
 hugo -D
+
 if %errorlevel% neq 0 (
-    echo [FAIL] Hugo build failed
+    echo ❌ Hugo build failed, exit.
     pause
-    exit /b
+    exit /b 1
 )
 
-echo [OK] Build complete
-
-echo.
-echo [STEP] Prepare deploy folder...
-ren public docs
-
-:: Git operations
-echo [STEP] Commit and push...
+REM 3) Git workflow
+echo 🔄 Staging Git changes...
 git add .
-git commit -m "deploy: %date% %time%" >nul 2>&1
 
+echo 🧾 Committing...
+git commit -m "deploy: auto build on %date% %time%" 2>nul
+
+REM 4) 保证没有rebase冲突
+git rebase --abort 2>nul
+
+REM 5) 拉取远程更新避免冲突
+echo ⬇️ Pulling latest changes...
+git pull --rebase
+
+echo 🚢 Pushing to GitHub...
 git push
-if %errorlevel% neq 0 (
-    echo [WARN] Push failed, retrying after rebase...
-    git pull --rebase
-    git push
-)
 
-echo.
-echo ========== DEPLOY SUCCESS ==========
-echo Website: https://novaedge.vip/
-echo ====================================
+echo ✅ Done! Website Updated!
+echo 🌐 Visit: https://novaedge.vip/
+echo -------------------------------------
 pause
