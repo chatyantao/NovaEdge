@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Windows on NovaEdge Blog</title>
-    <link>https://novaedge.vip/tags/windows/</link>
+    <link>http://localhost:49917/tags/windows/</link>
     <description>Recent content in Windows on NovaEdge Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 28 Oct 2025 15:07:49 +0800</lastBuildDate>
-    <atom:link href="https://novaedge.vip/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:49917/tags/windows/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>探索 Windows 11 24H2 LTSC：纯净高效的系统选择</title>
-      <link>https://novaedge.vip/posts/%E6%8E%A2%E7%B4%A2-windows-11-24h2-ltsc%E7%BA%AF%E5%87%80%E9%AB%98%E6%95%88%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%80%89%E6%8B%A9/</link>
+      <link>http://localhost:49917/posts/%E6%8E%A2%E7%B4%A2-windows-11-24h2-ltsc%E7%BA%AF%E5%87%80%E9%AB%98%E6%95%88%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%80%89%E6%8B%A9/</link>
       <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/posts/%E6%8E%A2%E7%B4%A2-windows-11-24h2-ltsc%E7%BA%AF%E5%87%80%E9%AB%98%E6%95%88%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%80%89%E6%8B%A9/</guid>
+      <guid>http://localhost:49917/posts/%E6%8E%A2%E7%B4%A2-windows-11-24h2-ltsc%E7%BA%AF%E5%87%80%E9%AB%98%E6%95%88%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%80%89%E6%8B%A9/</guid>
       <description>&lt;h1 id=&#34;探索-windows-11-24h2-ltsc纯净高效的系统选择&#34;&gt;探索 Windows 11 24H2 LTSC：纯净高效的系统选择&lt;/h1&gt;
 &lt;p&gt;大家好，我是你的科技分享者novaedge。今天，我想和大家聊聊 Windows 11 的一个特别版本——24H2 LTSC。它被誉为最简洁、最可靠的系统变体，无论你是用老旧的笔记本还是最新的台式机，都能轻松上手。为什么我会这么推崇它？因为它剔除了那些多余的预装软件和广告推送，让你的电脑真正回归本质：高效运行你需要的任务。&lt;/p&gt;
 &lt;h2 id=&#34;为什么选择-ltsc-版本&#34;&gt;为什么选择 LTSC 版本？&lt;/h2&gt;

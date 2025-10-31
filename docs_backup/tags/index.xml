@@ -2,73 +2,73 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on NovaEdge Blog</title>
-    <link>https://novaedge.vip/tags/</link>
+    <link>http://localhost:49917/tags/</link>
     <description>Recent content in Tags on NovaEdge Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 28 Oct 2025 15:07:49 +0800</lastBuildDate>
-    <atom:link href="https://novaedge.vip/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:49917/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cloudflare</title>
-      <link>https://novaedge.vip/tags/cloudflare/</link>
+      <link>http://localhost:49917/tags/cloudflare/</link>
       <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/cloudflare/</guid>
+      <guid>http://localhost:49917/tags/cloudflare/</guid>
       <description></description>
     </item>
     <item>
       <title>Serverless</title>
-      <link>https://novaedge.vip/tags/serverless/</link>
+      <link>http://localhost:49917/tags/serverless/</link>
       <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/serverless/</guid>
+      <guid>http://localhost:49917/tags/serverless/</guid>
       <description></description>
     </item>
     <item>
       <title>Workers</title>
-      <link>https://novaedge.vip/tags/workers/</link>
+      <link>http://localhost:49917/tags/workers/</link>
       <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/workers/</guid>
+      <guid>http://localhost:49917/tags/workers/</guid>
       <description></description>
     </item>
     <item>
       <title>边缘计算</title>
-      <link>https://novaedge.vip/tags/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97/</link>
+      <link>http://localhost:49917/tags/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97/</link>
       <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97/</guid>
+      <guid>http://localhost:49917/tags/%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97/</guid>
       <description></description>
     </item>
     <item>
       <title>LTSC</title>
-      <link>https://novaedge.vip/tags/ltsc/</link>
+      <link>http://localhost:49917/tags/ltsc/</link>
       <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/ltsc/</guid>
+      <guid>http://localhost:49917/tags/ltsc/</guid>
       <description></description>
     </item>
     <item>
       <title>Windows</title>
-      <link>https://novaedge.vip/tags/windows/</link>
+      <link>http://localhost:49917/tags/windows/</link>
       <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/windows/</guid>
+      <guid>http://localhost:49917/tags/windows/</guid>
       <description></description>
     </item>
     <item>
       <title>教程</title>
-      <link>https://novaedge.vip/tags/%E6%95%99%E7%A8%8B/</link>
+      <link>http://localhost:49917/tags/%E6%95%99%E7%A8%8B/</link>
       <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/tags/%E6%95%99%E7%A8%8B/</guid>
+      <guid>http://localhost:49917/tags/%E6%95%99%E7%A8%8B/</guid>
       <description></description>
     </item>
     <item>
       <title>Hugo</title>
-      <link>https://novaedge.vip/tags/hugo/</link>
+      <link>http://localhost:49917/tags/hugo/</link>
       <pubDate>Wed, 22 Oct 2025 22:00:00 +0800</pubDate>
-      <guid>https://novaedge.vip/tags/hugo/</guid>
+      <guid>http://localhost:49917/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
       <title>PaperMod</title>
-      <link>https://novaedge.vip/tags/papermod/</link>
+      <link>http://localhost:49917/tags/papermod/</link>
       <pubDate>Wed, 22 Oct 2025 22:00:00 +0800</pubDate>
-      <guid>https://novaedge.vip/tags/papermod/</guid>
+      <guid>http://localhost:49917/tags/papermod/</guid>
       <description></description>
     </item>
   </channel>

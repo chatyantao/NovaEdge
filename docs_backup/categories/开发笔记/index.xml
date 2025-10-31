@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>开发笔记 on NovaEdge Blog</title>
-    <link>https://novaedge.vip/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</link>
+    <link>http://localhost:49917/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/</link>
     <description>Recent content in 开发笔记 on NovaEdge Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 28 Oct 2025 15:07:49 +0800</lastBuildDate>
-    <atom:link href="https://novaedge.vip/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:49917/categories/%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello PaperMod!</title>
-      <link>https://novaedge.vip/posts/hello-papermod/</link>
+      <link>http://localhost:49917/posts/hello-papermod/</link>
       <pubDate>Wed, 22 Oct 2025 22:00:00 +0800</pubDate>
-      <guid>https://novaedge.vip/posts/hello-papermod/</guid>
+      <guid>http://localhost:49917/posts/hello-papermod/</guid>
       <description>第一次测试文章，展示封面图和卡片布局。</description>
     </item>
   </channel>

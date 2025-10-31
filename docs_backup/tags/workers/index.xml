@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Workers on NovaEdge Blog</title>
-    <link>https://novaedge.vip/tags/workers/</link>
+    <link>http://localhost:49917/tags/workers/</link>
     <description>Recent content in Workers on NovaEdge Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 28 Oct 2025 15:07:49 +0800</lastBuildDate>
-    <atom:link href="https://novaedge.vip/tags/workers/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:49917/tags/workers/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cloudflare Workers 实战：用边缘计算打造免费中转服务</title>
-      <link>https://novaedge.vip/posts/cloudflare-workers-%E5%AE%9E%E6%88%98%E7%94%A8%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E6%89%93%E9%80%A0%E5%85%8D%E8%B4%B9%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1/</link>
+      <link>http://localhost:49917/posts/cloudflare-workers-%E5%AE%9E%E6%88%98%E7%94%A8%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E6%89%93%E9%80%A0%E5%85%8D%E8%B4%B9%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1/</link>
       <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://novaedge.vip/posts/cloudflare-workers-%E5%AE%9E%E6%88%98%E7%94%A8%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E6%89%93%E9%80%A0%E5%85%8D%E8%B4%B9%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1/</guid>
+      <guid>http://localhost:49917/posts/cloudflare-workers-%E5%AE%9E%E6%88%98%E7%94%A8%E8%BE%B9%E7%BC%98%E8%AE%A1%E7%AE%97%E6%89%93%E9%80%A0%E5%85%8D%E8%B4%B9%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1/</guid>
       <description>&lt;h2 id=&#34;前言边缘计算不只是加速网页&#34;&gt;前言：边缘计算，不只是加速网页&lt;/h2&gt;
 &lt;p&gt;很多人知道 Cloudflare 提供免费 CDN（内容分发网络），但其实它的「Workers」功能更有趣——它让开发者在全球 300 多个节点上运行自定义脚本，相当于你拥有一个分布在世界各地的迷你云平台。&lt;/p&gt;
 &lt;p&gt;这意味着你可以让一个 JS 文件，在离用户最近的节点上实时处理请求、转发数据、加密流量——完全不需要传统服务器。&lt;/p&gt;
