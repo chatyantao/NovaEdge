@@ -1,77 +1,68 @@
 @echo off
-title 🚀 NovaEdge Auto Deploy
+chcp 65001 >nul
 
-echo -------------------------------------
-echo 🚀 NovaEdge 博客自动部署启动
-echo -------------------------------------
+title NovaEdge Deploy
 
-:: 强制切到脚本目录
+echo ========== NovaEdge Auto Deploy ==========
+
 cd /d %~dp0
 
-:: 检查 Git 配置（避免 Unknown author）
+:: Ensure git identity
 for /f "delims=" %%i in ('git config user.name') do set GITNAME=%%i
 for /f "delims=" %%i in ('git config user.email') do set GITEMAIL=%%i
 
-if "%GITNAME%"=="" (
-    echo ⚠️ 检测到未配置 git 用户名，正在自动设置...
-    git config --global user.name "chatyantao"
-)
-if "%GITEMAIL%"=="" (
-    echo ⚠️ 检测到未配置 git 邮箱，正在自动设置...
-    git config --global user.email "chatyantao@gmail.com"
-)
+if "%GITNAME%"=="" git config --global user.name "chatyantao"
+if "%GITEMAIL%"=="" git config --global user.email "chatyantao@gmail.com"
 
-echo ✅ Git 用户信息已确认
+echo [OK] Git user configured
 
 echo.
-echo 🔄 检查远程更新...
+echo [STEP] Pull latest changes...
 git pull --rebase
 if %errorlevel% neq 0 (
-    echo ⚠️ 远程更新冲突，执行恢复...
+    echo [WARN] Rebase conflict, aborting...
     git rebase --abort >nul 2>&1
-    echo ✅ 已恢复 rebase
 )
 
-:: 备份 docs 防止人祸
+:: Backup docs
 if exist docs (
-    echo 📦 备份 docs
+    echo [STEP] Backup old docs...
     rmdir /s /q docs_backup 2>nul
     ren docs docs_backup
 )
 
-echo.
-echo 🧹 清理旧 build
+:: Clean old public
 rmdir /s /q public 2>nul
 
 echo.
-echo 🏗️ 使用 Hugo 生成静态网站...
+echo [STEP] Build Hugo...
 hugo -D
-
 if %errorlevel% neq 0 (
-    echo ❌ Hugo 构建失败
+    echo [FAIL] Hugo build failed
     pause
     exit /b
 )
 
+echo [OK] Build complete
+
 echo.
-echo 📁 将 public 重命名为 docs
+echo [STEP] Prepare deploy folder...
 ren public docs
 
-echo.
-echo 📝 git 提交更新...
+:: Git operations
+echo [STEP] Commit and push...
 git add .
-git commit -m "auto: deploy at %date% %time%" >nul 2>&1
+git commit -m "deploy: %date% %time%" >nul 2>&1
 
-echo 🚚 推送到 GitHub...
 git push
-
 if %errorlevel% neq 0 (
-    echo ❌ 推送失败！执行最终补救...
+    echo [WARN] Push failed, retrying after rebase...
     git pull --rebase
     git push
 )
 
-echo -------------------------------------
-echo ✅ ✅ ✅  部署成功！访问: https://novaedge.vip/
-echo -------------------------------------
+echo.
+echo ========== DEPLOY SUCCESS ==========
+echo Website: https://novaedge.vip/
+echo ====================================
 pause
